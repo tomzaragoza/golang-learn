@@ -9,7 +9,6 @@ type Node struct {
 	right *Node
 }
 
-
 func left_count(root *Node) int {
 	/* Return the total number of left nodes in the binary tree rooted at root.*/
 
@@ -32,6 +31,26 @@ func right_count(root *Node) int {
 	}
 	return 0
 }
+
+/* following are from the answer section of the exercise book */
+func minDepth(root *Node) float64 {
+	if root == nil {
+		return 0
+	}
+	return 1 + math.Min(minDepth(root.left), minDepth(root.right))
+}
+
+func maxDepth(root *Node) float64 {
+	if root == nil {
+		return 0
+	}
+	return 1 + math.Max(maxDepth(root.left), maxDepth(root.right))
+}
+
+func balanced(root *Node) bool {
+	return (maxDepth(root) - minDepth(root) <= 1)
+}
+/* End Answer from the book */
 
 func is_balanced(root *Node) bool {
 	/* Return if the binary tree rooted at root is balance. By definition,
@@ -101,4 +120,7 @@ func main() {
 
 	j := is_balanced(root)
 	fmt.Println(j)
+
+	k := balanced(root)
+	fmt.Println(k)
 }
