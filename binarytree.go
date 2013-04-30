@@ -2,6 +2,7 @@ package main
 import ("fmt"; "math")
 
 type Node struct {
+	/* Node structure for binary trees */
 	value float64
 	height float64
 	left *Node
@@ -10,6 +11,8 @@ type Node struct {
 
 
 func left_count(root *Node) int {
+	/* Return the total number of left nodes in the binary tree rooted at root.*/
+
 	switch {
 		case root != nil && root.left != nil:
 			return 1 + left_count(root.left) + left_count(root.right)
@@ -20,6 +23,7 @@ func left_count(root *Node) int {
 } 
 
 func right_count(root *Node) int {
+	/* Return the total number of right nodes in the binary tree rooted at root*/
 	switch {
 		case root != nil && root.right != nil:
 			return 1 + left_count(root.left) + left_count(root.right)
@@ -30,10 +34,11 @@ func right_count(root *Node) int {
 }
 
 func is_balanced(root *Node) bool {
-
-	//fmt.Println(root.left.height, "Left")
-	//fmt.Println(root.right.height, "Right")
+	/* Return if the binary tree rooted at root is balance. By definition,
+	balanced means no two leaves differ no more than one node from the root*/
 	get_heights(root)
+
+	fmt.Println("Left node: ", root.left.height, "Right node: ", root.right.height)
 
 	if 1 < math.Max(root.left.height, root.right.height) - math.Min(root.left.height, root.right.height) {
 		return false
@@ -43,32 +48,28 @@ func is_balanced(root *Node) bool {
 }
 
 func get_heights(root *Node) float64 {
-	// get heights of left and right nodes
-	// return -> (left_height, right_height)
-
-	/*fmt.Println(root.left.height, "Left")
-	fmt.Println(root.right.height, "Right")
-	fmt.Println("------------------")*/
-
+	/* Recursively get the heights of trees rooted at each node in the binary
+	tree rooted at root. */
 	switch { 
 
 	 	case root != nil && root.right != nil && root.left != nil:
 	 		
-	 		root.left.height = 1 + get_heights(root.left)
-			root.left.height = 1 + get_heights(root.right)
+	 		root.left.height += 1 + get_heights(root.left)
+			root.right.height += 1 + get_heights(root.right)
 
 			return math.Max(root.left.height, root.right.height)
 
 		case root != nil && root.right != nil && root.left == nil:
 			
-			root.left.height = 1 + get_heights(root.left)
-			return root.left.height
+			root.right.height += 1 + get_heights(root.right)
+			return root.right.height
 
 		case root != nil && root.right == nil && root.left != nil:
 			
-			root.right.height = 1 + get_heights(root.right)			
-			return root.right.height
+			root.left.height += 1 + get_heights(root.left)			
+			return root.left.height
 	}
+	
 	return 0
 }
 
@@ -96,9 +97,7 @@ func main() {
 	right2.right = right3
 	right3.right = right4
 	right4.right = right5
-
-	//x := left_count(root)
-	//fmt.Println(x)
+	// this creates an unbalanced binary tree
 
 	j := is_balanced(root)
 	fmt.Println(j)
