@@ -51,7 +51,6 @@ func balanced(root *Node) bool {
 	return (maxDepth(root) - minDepth(root) <= 1)
 }
 /* End Answer from the book */
-
 func is_balanced(root *Node) bool {
 	/* Return if the binary tree rooted at root is balance. By definition,
 	balanced means no two leaves differ no more than one node from the root*/
